@@ -32,6 +32,10 @@ public class Carro {
     @Setter
     private String problema;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente dono;
+
     public Carro(String modelo, String marca, String placa, int ano, String problema) {
         this.modelo = modelo;
         this.marca = marca;

@@ -2,14 +2,25 @@ package br.com.funilaria.models;
 
 import br.com.funilaria.FunilariaApplication;
 import br.com.funilaria.interfaces.ICliente;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
-
+@Entity
+@Table(name = "clientes")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cliente extends Usuario implements ICliente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private Date dataMarcada;
-    private Carro carro;
+
+    @OneToMany(mappedBy = "dono")
+    private List<Carro> carros = new ArrayList<>();
 
     public Cliente(String nome, String numero, String cpf, String email) {
         super(nome, numero, cpf, email);
@@ -17,8 +28,9 @@ public class Cliente extends Usuario implements ICliente {
 
     @Override
     public Carro cadastrarCarro(String modelo, String marca, String placa, int ano, String problema) {
-        this.carro = new Carro(modelo, marca, placa, ano, problema);
-        return carro;
+        Carro novo_carro = new Carro(modelo, marca, placa, ano, problema);
+        this.carros.add(novo_carro);
+        return novo_carro;
     }
 
     @Override

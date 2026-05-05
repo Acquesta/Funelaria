@@ -2,6 +2,7 @@ package br.com.funilaria.DTOs;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 public class ClienteDTO {
@@ -20,4 +21,12 @@ public class ClienteDTO {
     @Getter
     @Setter
     private String email;
+
+    public ClienteDTO(String nome, String numero, String cpf, String email) {
+        this.nome = nome;
+        this.numero = numero;
+        this.cpf = cpf;
+        this.email = email;
+    }
+
 }

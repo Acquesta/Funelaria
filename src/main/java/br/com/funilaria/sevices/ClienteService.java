@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -34,7 +35,7 @@ public class ClienteService {
         return repository.save(novo_cliente);
     }
 
-    public List<Cliente> listarClientes(){
+    public List<ClienteDTO> listarClientes(){
 
         List<Cliente> clientes = repository.findAll();
 
@@ -42,7 +43,14 @@ public class ClienteService {
             throw new RecursoNaoEncontradoException("Não exite nenhum cliente cadastrado");
         }
 
-        return repository.findAll();
+        return clientes.stream()
+                .map(c -> new ClienteDTO(
+                        c.getNome(),
+                        c.getNumero(),
+                        c.getCpf(),
+                        c.getEmail()))
+                .collect(Collectors.toList());
+
     }
 
     public ClienteDTO buscarCliente(Long id){

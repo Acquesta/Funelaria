@@ -3,8 +3,7 @@ package br.com.funilaria.models;
 import br.com.funilaria.FunilariaApplication;
 import br.com.funilaria.interfaces.ICliente;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
@@ -13,6 +12,8 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cliente extends Usuario implements ICliente {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

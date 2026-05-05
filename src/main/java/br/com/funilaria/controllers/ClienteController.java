@@ -19,7 +19,7 @@ public class ClienteController {
     private ClienteService service;
 
     @GetMapping
-    public List<Cliente> listarClientes(){
+    public List<ClienteDTO> listarClientes(){
         return service.listarClientes();
     }
     

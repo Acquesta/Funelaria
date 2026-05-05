@@ -8,6 +8,9 @@ import lombok.Setter;
 public class ClienteDTO {
     @Getter
     @Setter
+    private Long id;
+    @Getter
+    @Setter
     @NotBlank(message = "O nome não pode estar vazio")
     private String nome;
     @Getter
@@ -22,11 +25,12 @@ public class ClienteDTO {
     @Setter
     private String email;
 
-    public ClienteDTO(String nome, String numero, String cpf, String email) {
+    public ClienteDTO(String nome, String numero, String cpf, String email, Long id) {
         this.nome = nome;
         this.numero = numero;
         this.cpf = cpf;
         this.email = email;
+        this.id = id;
     }
 
 }

@@ -1,10 +1,14 @@
 package br.com.funilaria.controllers;
 
 import br.com.funilaria.DTOs.ClienteDTO;
+import br.com.funilaria.DTOs.StatusExclusaoDTO;
 import br.com.funilaria.models.Cliente;
 import br.com.funilaria.sevices.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,8 +23,8 @@ public class ClienteController {
     private ClienteService service;
 
     @GetMapping
-    public List<ClienteDTO> listarClientes(){
-        return service.listarClientes();
+    public Page<ClienteDTO> listarClientes(@PageableDefault Pageable pageable){
+        return service.listarClientes(pageable);
     }
     
     @GetMapping("/{id}")
@@ -29,7 +33,12 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente criarNovoCliente(@Valid @RequestBody ClienteDTO dados) {
+    public ClienteDTO criarNovoCliente(@Valid @RequestBody ClienteDTO dados) {
         return service.cadastrar(dados);
+    }
+
+    @DeleteMapping("/{id}")
+    public StatusExclusaoDTO deletarCliente(@PathVariable Long id){
+        return service.deletarCliente(id);
     }
 }

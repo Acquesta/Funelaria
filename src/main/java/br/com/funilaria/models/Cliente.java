@@ -1,5 +1,6 @@
 package br.com.funilaria.models;
 
+import br.com.funilaria.DTOs.StatusExclusaoDTO;
 import br.com.funilaria.FunilariaApplication;
 import br.com.funilaria.interfaces.ICliente;
 import jakarta.persistence.*;
@@ -23,6 +24,10 @@ public class Cliente extends Usuario implements ICliente {
     @OneToMany(mappedBy = "dono")
     private List<Carro> carros = new ArrayList<>();
 
+    @Getter
+    @Setter
+    private boolean ativo = true;
+
     public Cliente(String nome, String numero, String cpf, String email) {
         super(nome, numero, cpf, email);
     }
@@ -40,4 +45,9 @@ public class Cliente extends Usuario implements ICliente {
 
         return horariosDisponiveis;
     }
+//
+//    public StatusExclusaoDTO alterarStatus(){
+//        this.ativo = !ativo;
+//        return new StatusExclusaoDTO(this.ativo,"Status do cliente alterado");
+//    }
 }

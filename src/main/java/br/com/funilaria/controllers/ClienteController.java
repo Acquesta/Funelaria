@@ -1,5 +1,6 @@
 package br.com.funilaria.controllers;
 
+import br.com.funilaria.DTOs.AtualizarClienteDTO;
 import br.com.funilaria.DTOs.ClienteDTO;
 import br.com.funilaria.DTOs.StatusExclusaoDTO;
 import br.com.funilaria.models.Cliente;
@@ -40,5 +41,12 @@ public class ClienteController {
     @DeleteMapping("/{id}")
     public StatusExclusaoDTO deletarCliente(@PathVariable Long id){
         return service.deletarCliente(id);
+    }
+
+    @PutMapping("/{id}")
+    public ClienteDTO atualizarCliente(@PathVariable Long id, @RequestBody AtualizarClienteDTO dados){
+        ClienteDTO clieteAtualizado = service.atualizarCliente(id, dados);
+
+        return clieteAtualizado;
     }
 }

@@ -1,5 +1,6 @@
 package br.com.funilaria.sevices;
 
+import br.com.funilaria.DTOs.AtualizarClienteDTO;
 import br.com.funilaria.DTOs.ClienteDTO;
 import br.com.funilaria.DTOs.StatusExclusaoDTO;
 import br.com.funilaria.exceptions.RecursoNaoEncontradoException;
@@ -28,6 +29,8 @@ public class ClienteService {
             throw new RegraDeNegocioException("cpf", "Este CPF já está cadastrado!");
         } else if (repository.existsByEmail(cliente.getEmail())){
             throw new RegraDeNegocioException("email", "Este email já existe!");
+        } else if (repository.existsByNumero(cliente.getNumero())){
+            throw new RegraDeNegocioException("numero", "Este número já existe!");
         }
 
         repository.save(new Cliente(
@@ -41,25 +44,24 @@ public class ClienteService {
 
     public Page<ClienteDTO> listarClientes(Pageable pageable){
 
-        Page<Cliente> clientes = repository.findAll(pageable);
+        Page<Cliente> clientes = repository.findAllByAtivoTrue(pageable);
 
         return clientes.map(c -> new ClienteDTO(
                         c.getNome(),
                         c.getNumero(),
                         c.getCpf(),
-                        c.getEmail(),
-                        c.getId()));
+                        c.getEmail()
+                        ));
     }
 
     public ClienteDTO buscarCliente(Long id){
-        Cliente buscaCliente = repository.findById(id)
+        Cliente buscaCliente = repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado"));
 
         return new ClienteDTO(buscaCliente.getNome(),
                 buscaCliente.getNumero(),
                 buscaCliente.getCpf(),
-                buscaCliente.getEmail(),
-                buscaCliente.getId());
+                buscaCliente.getEmail());
 
     }
 
@@ -72,5 +74,30 @@ public class ClienteService {
         repository.save(cliente);
 
         return new StatusExclusaoDTO(false, "Cliente excluido com sucesso");
+    }
+
+    public ClienteDTO atualizarCliente(Long id, AtualizarClienteDTO dados){
+        Cliente cliente = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado"));
+
+        if(dados.getNome() == null && dados.getNumero() == null && dados.getEmail() == null){
+            throw new RecursoNaoEncontradoException("É necessario passar algum dado para alterar");
+        }
+        if(dados.getNome() != null){
+            cliente.setNome(dados.getNome());
+        }
+        if(dados.getNumero() != null){
+            cliente.setNumero(dados.getNumero());
+        }
+        if(dados.getEmail() != null){
+            cliente.setEmail(dados.getEmail());
+        }
+
+        Cliente clienteSalvo = repository.save(cliente);
+
+        return new ClienteDTO(clienteSalvo.getNome(),
+                clienteSalvo.getNumero(),
+                clienteSalvo.getCpf(),
+                cliente.getEmail());
     }
 }

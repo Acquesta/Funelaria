@@ -26,6 +26,7 @@ public class Cliente extends Usuario implements ICliente {
 
     @Getter
     @Setter
+    @Column(columnDefinition = "boolean default true")
     private boolean ativo = true;
 
     public Cliente(String nome, String numero, String cpf, String email) {

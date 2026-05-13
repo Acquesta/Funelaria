@@ -1,7 +1,9 @@
 package br.com.funilaria.models;
 
+import br.com.funilaria.DTOs.AtualizarClienteDTO;
 import br.com.funilaria.DTOs.StatusExclusaoDTO;
 import br.com.funilaria.FunilariaApplication;
+import br.com.funilaria.exceptions.RecursoNaoEncontradoException;
 import br.com.funilaria.interfaces.ICliente;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,11 +35,9 @@ public class Cliente extends Usuario implements ICliente {
         super(nome, numero, cpf, email);
     }
 
-    @Override
-    public Carro cadastrarCarro(String modelo, String marca, String placa, int ano, String problema) {
-        Carro novo_carro = new Carro(modelo, marca, placa, ano, problema);
-        this.carros.add(novo_carro);
-        return novo_carro;
+    public void cadastrarCarro(Carro carro) {
+        this.carros.add(carro);
+        carro.setDono(this);
     }
 
     @Override
@@ -46,9 +46,16 @@ public class Cliente extends Usuario implements ICliente {
 
         return horariosDisponiveis;
     }
-//
-//    public StatusExclusaoDTO alterarStatus(){
-//        this.ativo = !ativo;
-//        return new StatusExclusaoDTO(this.ativo,"Status do cliente alterado");
-//    }
+
+    public void atualizarCliente(AtualizarClienteDTO dados){
+        if(dados.getNome() != null){
+            this.setNome(dados.getNome());
+        }
+        if(dados.getNumero() != null){
+            this.setNumero(dados.getNumero());
+        }
+        if(dados.getEmail() != null){
+            this.setEmail(dados.getEmail());
+        }
+    }
 }

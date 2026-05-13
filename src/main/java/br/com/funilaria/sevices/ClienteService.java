@@ -1,12 +1,15 @@
 package br.com.funilaria.sevices;
 
 import br.com.funilaria.DTOs.AtualizarClienteDTO;
+import br.com.funilaria.DTOs.CarroDTO;
 import br.com.funilaria.DTOs.ClienteDTO;
 import br.com.funilaria.DTOs.StatusExclusaoDTO;
 import br.com.funilaria.exceptions.RecursoNaoEncontradoException;
 import br.com.funilaria.exceptions.RegraDeNegocioException;
+import br.com.funilaria.models.Carro;
 import br.com.funilaria.models.Cliente;
 import br.com.funilaria.repositories.ClienteRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,21 +80,10 @@ public class ClienteService {
     }
 
     public ClienteDTO atualizarCliente(Long id, AtualizarClienteDTO dados){
-        Cliente cliente = repository.findById(id)
+        Cliente cliente = repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado"));
 
-        if(dados.getNome() == null && dados.getNumero() == null && dados.getEmail() == null){
-            throw new RecursoNaoEncontradoException("É necessario passar algum dado para alterar");
-        }
-        if(dados.getNome() != null){
-            cliente.setNome(dados.getNome());
-        }
-        if(dados.getNumero() != null){
-            cliente.setNumero(dados.getNumero());
-        }
-        if(dados.getEmail() != null){
-            cliente.setEmail(dados.getEmail());
-        }
+        cliente.atualizarCliente(dados);
 
         Cliente clienteSalvo = repository.save(cliente);
 
@@ -99,5 +91,21 @@ public class ClienteService {
                 clienteSalvo.getNumero(),
                 clienteSalvo.getCpf(),
                 cliente.getEmail());
+    }
+
+    public ClienteDTO cadastrarCarro(Long id, CarroDTO carro){
+        Cliente cliente = repository.findByIdAndAtivoTrue(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado"));
+
+        cliente.cadastrarCarro(new Carro(carro.getModelo(),
+                carro.getMarca(),
+                carro.getPlaca(),
+                carro.getAno(),
+                carro.getProblema()));
+
+        repository.save(cliente);
+
+        return new ClienteDTO(cliente.getNome(), cliente.getNumero(), cliente.getCpf(), cliente.getEmail());
+
     }
 }

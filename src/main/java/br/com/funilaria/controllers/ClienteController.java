@@ -1,9 +1,9 @@
 package br.com.funilaria.controllers;
 
 import br.com.funilaria.DTOs.AtualizarClienteDTO;
+import br.com.funilaria.DTOs.CarroDTO;
 import br.com.funilaria.DTOs.ClienteDTO;
 import br.com.funilaria.DTOs.StatusExclusaoDTO;
-import br.com.funilaria.models.Cliente;
 import br.com.funilaria.sevices.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +44,14 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ClienteDTO atualizarCliente(@PathVariable Long id, @RequestBody AtualizarClienteDTO dados){
+    public ClienteDTO atualizarCliente(@PathVariable Long id,@Valid @RequestBody AtualizarClienteDTO dados){
         ClienteDTO clieteAtualizado = service.atualizarCliente(id, dados);
 
         return clieteAtualizado;
+    }
+
+    @PostMapping("/{id}/carro")
+    public ClienteDTO cadastrarCarro(@PathVariable Long id, @Valid @RequestBody CarroDTO dados){
+        // Vou continuar o código depois
     }
 }

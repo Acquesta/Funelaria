@@ -32,6 +32,8 @@ public class Carro {
     @Setter
     private String problema;
 
+    @Getter
+    @Setter
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente dono;

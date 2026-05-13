@@ -7,6 +7,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface ICliente {
-    Carro cadastrarCarro(String modelo, String marca, String placa, int ano, String problema);
     List<Date> marcarVistoria(Date horarioPossivel, Funileiro funileiro);
 }

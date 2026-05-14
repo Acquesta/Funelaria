@@ -52,6 +52,7 @@ public class ClienteController {
 
     @PostMapping("/{id}/carro")
     public ClienteDTO cadastrarCarro(@PathVariable Long id, @Valid @RequestBody CarroDTO dados){
-        // Vou continuar o código depois
+        ClienteDTO cliente = service.cadastrarCarro(id, dados);
+        return cliente;
     }
 }

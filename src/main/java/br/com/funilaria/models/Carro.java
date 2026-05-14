@@ -2,11 +2,14 @@ package br.com.funilaria.models;
 
 import br.com.funilaria.repositories.CarroRepository;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "carros")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Carro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

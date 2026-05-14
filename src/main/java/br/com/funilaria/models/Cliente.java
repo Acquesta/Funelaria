@@ -23,7 +23,7 @@ public class Cliente extends Usuario implements ICliente {
 
     private Date dataMarcada;
 
-    @OneToMany(mappedBy = "dono")
+    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Carro> carros = new ArrayList<>();
 
     @Getter

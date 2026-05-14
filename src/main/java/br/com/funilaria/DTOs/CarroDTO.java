@@ -28,16 +28,11 @@ public class CarroDTO {
     @Setter
     private String problema;
 
-    @Getter
-    @Setter
-    private Cliente dono;
-
-    public CarroDTO(String modelo, String marca, String placa, int ano, String problema, Cliente dono) {
+    public CarroDTO(String modelo, String marca, String placa, int ano, String problema) {
         this.modelo = modelo;
         this.marca = marca;
         this.placa = placa;
         this.ano = ano;
         this.problema = problema;
-        this.dono = dono;
     }
 }
